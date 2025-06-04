@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LyricForge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>LyricForge</h1>
+        <p>Enter a theme and select a genre to generate AI-written lyrics.</p>
+        <label for="theme">Song Theme:</label>
+        <input type="text" id="theme" placeholder="e.g., lost love">
+        <label for="genre">Genre:</label>
+        <select id="genre">
+            <option value="Trap">Trap</option>
+            <option value="Country">Country</option>
+            <option value="EDM">EDM</option>
+            <option value="Pop punk">Pop-punk</option>
+            <option value="R&B">R&B</option>
+        </select>
+        <button id="generate">Generate Lyrics</button>
+        <div id="spinner" class="spinner" hidden></div>
+        <pre id="lyrics"></pre>
+        <button id="copy" hidden>Copy Lyrics</button>
+        <button id="play" hidden>Play Lyrics</button>
+        <button id="download" hidden>Download Lyrics</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
