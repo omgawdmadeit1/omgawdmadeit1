@@ -2,12 +2,17 @@ import csv
 import json
 from pathlib import Path
 
+import pytest
+
 from src.cli import approve_lead
 from src.generate_listings import (
+    DEFAULT_PRICING_CONFIG,
     Item,
     build_follow_up_messages,
+    build_quote_range,
     generate_listing,
     load_job_config,
+    load_pricing_config,
     write_etsy_csv,
 )
 
@@ -26,7 +31,12 @@ def test_generate_listing_fields():
         def info(self, *_args, **_kwargs):
             return None
 
-    listing = generate_listing(item, load_job_config(Path("missing.json"), DummyLogger()), DummyLogger())
+    listing = generate_listing(
+        item,
+        load_job_config(Path("missing.json"), DummyLogger()),
+        DEFAULT_PRICING_CONFIG,
+        DummyLogger(),
+    )
 
     assert listing.sku == "TEST-001"
     assert listing.title.startswith("Acme Widget")
@@ -52,7 +62,12 @@ def test_write_etsy_csv_includes_tags_and_images(tmp_path):
         def info(self, *_args, **_kwargs):
             return None
 
-    listing = generate_listing(item, load_job_config(Path("missing.json"), DummyLogger()), DummyLogger())
+    listing = generate_listing(
+        item,
+        load_job_config(Path("missing.json"), DummyLogger()),
+        DEFAULT_PRICING_CONFIG,
+        DummyLogger(),
+    )
     output_path = tmp_path / "etsy.csv"
     write_etsy_csv([listing], output_path)
 
@@ -94,8 +109,8 @@ def test_follow_up_messages_constraints():
         def info(self, *_args, **_kwargs):
             return None
 
-    config = load_job_config(Path("missing.json"), DummyLogger())
-    messages = build_follow_up_messages(item, 0.5, config, DummyLogger())
+    pricing = DEFAULT_PRICING_CONFIG
+    messages = build_follow_up_messages(item, 0.5, pricing, DummyLogger())
 
     for variant in ("friendly", "direct"):
         text = messages[variant]
@@ -127,3 +142,62 @@ def test_approve_lead_moves_files(tmp_path, monkeypatch):
     assert not message_path.exists()
     approved_data = json.loads(approved_json.read_text(encoding="utf-8"))
     assert approved_data["approval_timestamp"]
+
+
+def test_pricing_config_overrides_applied(tmp_path):
+    pytest.importorskip("yaml")
+    config_path = tmp_path / "pricing.yaml"
+    config_path.write_text(
+        "\n".join(
+            [
+                "labor_rate_range:",
+                "  default: [50, 60]",
+                "labor_hours_range:",
+                "  default: [1, 2]",
+                "parts_range:",
+                "  default: [5, 10]",
+                "trip_fee_range:",
+                "  with_zip: [15, 20]",
+                "  without_zip: [0, 0]",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    class DummyLogger:
+        def info(self, *_args, **_kwargs):
+            return None
+
+    pricing = load_pricing_config(config_path, DummyLogger())
+    item = Item(
+        sku="TEST-004",
+        title_hint="Widget",
+        condition="Used",
+        notes="Notes",
+        weight_lbs=1.0,
+        zip_code="12345",
+    )
+    quote = build_quote_range(item, pricing, DummyLogger())
+    assert quote == "$70.00-$150.00"
+
+
+def test_pricing_config_fallback_on_missing(tmp_path):
+    class DummyLogger:
+        def info(self, *_args, **_kwargs):
+            return None
+
+    pricing = load_pricing_config(tmp_path / "missing.yaml", DummyLogger())
+    assert pricing == DEFAULT_PRICING_CONFIG
+
+
+def test_pricing_config_fallback_on_malformed(tmp_path):
+    pytest.importorskip("yaml")
+
+    class DummyLogger:
+        def info(self, *_args, **_kwargs):
+            return None
+
+    config_path = tmp_path / "pricing.yaml"
+    config_path.write_text("labor_rate_range: invalid", encoding="utf-8")
+    pricing = load_pricing_config(config_path, DummyLogger())
+    assert pricing == DEFAULT_PRICING_CONFIG
