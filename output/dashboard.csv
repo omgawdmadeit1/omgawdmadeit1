@@ -1,0 +1,2 @@
+lead_id,job_type,confidence,quote_low,quote_high,next_action,status
+NCR-S2-PRES-001,default,1.00,0.00,0.00,ready_for_approval,approved

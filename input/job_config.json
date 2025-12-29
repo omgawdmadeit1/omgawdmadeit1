@@ -1,0 +1,14 @@
+{
+  "job_types": {
+    "default": {
+      "labor_rate_per_hour": 0,
+      "typical_hour_range": [0.0, 0.0],
+      "trip_fee": 0
+    },
+    "light_cleaning": {
+      "labor_rate_per_hour": 35,
+      "typical_hour_range": [1.0, 2.5],
+      "trip_fee": 15
+    }
+  }
+}

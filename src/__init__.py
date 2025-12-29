@@ -1,0 +1,1 @@
+"""Listing generator package."""

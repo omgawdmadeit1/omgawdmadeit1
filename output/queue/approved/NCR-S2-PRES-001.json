@@ -1,0 +1,33 @@
+{
+  "approved_at_iso": "2025-12-20T13:07:50.181969+00:00",
+  "category": "Business & Industrial > Retail & Services > Cash Registers & POS Equipment",
+  "condition": "Used",
+  "confidence_score": 1.0,
+  "created_at_iso": "2025-12-20T13:07:43.426918+00:00",
+  "description": "Item: NCR S2 Cash Presenter\nCondition: Used\nNotes: Tested working. Minor cosmetic scuffs.\nAssumptions: No additional accessories or certifications included unless noted.",
+  "follow_up_messages": {
+    "confidence_score": 1.0,
+    "direct": "Thanks for the details.\nSummary: NCR S2 Cash Presenter (Used)\nEstimate range: $0.00-$0.00\nTime windows: Weekdays 9am-12pm or Weekdays 1pm-4pm",
+    "estimate_range": "$0.00-$0.00",
+    "friendly": "Hi there! Thanks for reaching out.\nSummary: NCR S2 Cash Presenter (Used)\nEstimate range: $0.00-$0.00\nTime windows: Weekdays 9am-12pm or Weekdays 1pm-4pm\nHappy to help whenever you're ready.",
+    "job_type": "default",
+    "next_action": "ready_for_approval",
+    "quote_high": "0.00",
+    "quote_low": "0.00"
+  },
+  "images": [
+    "NCR-S2-PRES-001-1.jpg",
+    "NCR-S2-PRES-001-2.jpg"
+  ],
+  "keywords": "ncr, s2, cash, presenter",
+  "lead_id": "NCR-S2-PRES-001",
+  "message_files": {
+    "direct": "/workspace/omgawdmadeit1/output/queue/approved/NCR-S2-PRES-001.direct.txt",
+    "friendly": "/workspace/omgawdmadeit1/output/queue/approved/NCR-S2-PRES-001.friendly.txt"
+  },
+  "recommended_style": "direct",
+  "shipping_weight_lbs": 8.0,
+  "sku": "NCR-S2-PRES-001",
+  "status": "approved",
+  "title": "NCR S2 Cash Presenter Used"
+}
