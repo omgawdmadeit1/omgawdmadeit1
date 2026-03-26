@@ -1,0 +1,155 @@
+:root {
+  --bg: #080b14;
+  --panel: #121a2b;
+  --panel-border: #243050;
+  --text: #e8eeff;
+  --muted: #98a6d1;
+  --accent: #4cc9f0;
+  --accent-2: #7b61ff;
+  --danger: #ff5d8f;
+  --success: #56f39a;
+  --shadow: 0 0 20px rgba(76, 201, 240, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: radial-gradient(circle at top, #141e35 0%, var(--bg) 60%);
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  padding: 14px;
+}
+
+.app {
+  width: min(100%, 460px);
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.panel {
+  background: linear-gradient(180deg, #151f35 0%, var(--panel) 100%);
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+
+.coins-panel {
+  text-align: center;
+}
+
+.label {
+  margin: 0;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.76rem;
+}
+
+.coins-value {
+  margin: 4px 0;
+  font-size: clamp(1.9rem, 8vw, 2.7rem);
+  line-height: 1.1;
+}
+
+.subtext {
+  margin: 0;
+  color: var(--success);
+  font-weight: 600;
+}
+
+.tap-button,
+.upgrade-button,
+.reset-button {
+  width: 100%;
+  border: none;
+  color: var(--text);
+  border-radius: 14px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 120ms ease, filter 120ms ease, opacity 120ms ease;
+}
+
+.tap-button:active,
+.upgrade-button:active,
+.reset-button:active {
+  transform: scale(0.97);
+}
+
+.tap-button {
+  min-height: 130px;
+  background: linear-gradient(145deg, var(--accent-2), #3c2fc1);
+  box-shadow: 0 0 30px rgba(123, 97, 255, 0.45);
+  display: grid;
+  place-content: center;
+  gap: 6px;
+}
+
+.tap-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.tap-subtitle {
+  font-size: 0.95rem;
+  color: #d3dbff;
+}
+
+.upgrades-panel h2 {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+}
+
+.upgrades-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.upgrade-button {
+  background: #1b2440;
+  border: 1px solid #2e3e68;
+  text-align: left;
+  padding: 12px;
+  display: grid;
+  gap: 3px;
+}
+
+.upgrade-name {
+  font-weight: 700;
+}
+
+.upgrade-level,
+.upgrade-cost {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.upgrade-button.affordable {
+  border-color: rgba(86, 243, 154, 0.6);
+}
+
+.upgrade-button:disabled {
+  opacity: 0.55;
+}
+
+.reset-button {
+  background: #2b1b2c;
+  border: 1px solid #5b2f56;
+  padding: 12px;
+  color: #ffd5e6;
+  font-weight: 700;
+}
+
+@media (min-width: 540px) {
+  body {
+    align-items: center;
+  }
+}

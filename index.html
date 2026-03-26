@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>Tap Miner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app" aria-label="Tap Miner Game">
+    <header class="panel coins-panel">
+      <p class="label">Coins</p>
+      <h1 id="coinsDisplay" class="coins-value">0</h1>
+      <p id="perSecondDisplay" class="subtext">+0 / sec</p>
+    </header>
+
+    <section class="panel tap-panel" aria-label="Tap area">
+      <button id="tapButton" class="tap-button" type="button" aria-label="Mine coins">
+        <span class="tap-title">⛏️ Tap to Mine</span>
+        <span id="tapPowerDisplay" class="tap-subtitle">+1 per tap</span>
+      </button>
+    </section>
+
+    <section class="panel upgrades-panel" aria-label="Upgrades">
+      <h2>Upgrades</h2>
+
+      <button id="strongerTapButton" class="upgrade-button" type="button">
+        <span class="upgrade-name">Stronger Tap</span>
+        <span id="strongerTapLevel" class="upgrade-level">Level 0</span>
+        <span id="strongerTapCost" class="upgrade-cost">Cost: 10</span>
+      </button>
+
+      <button id="autoMinerButton" class="upgrade-button" type="button">
+        <span class="upgrade-name">Auto Miner</span>
+        <span id="autoMinerLevel" class="upgrade-level">Level 0</span>
+        <span id="autoMinerCost" class="upgrade-cost">Cost: 25</span>
+      </button>
+    </section>
+
+    <section class="panel controls-panel" aria-label="Game controls">
+      <button id="resetButton" class="reset-button" type="button">Reset Progress</button>
+    </section>
+  </main>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
