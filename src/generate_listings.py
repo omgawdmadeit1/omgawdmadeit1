@@ -4,6 +4,7 @@ import json
 import logging
 import re
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable, List, Tuple
 
@@ -17,6 +18,7 @@ DEFAULT_LOG = BASE_DIR / "logs" / "run.log"
 OUTPUT_QUEUE_DIR = BASE_DIR / "output" / "queue"
 PENDING_QUEUE_DIR = OUTPUT_QUEUE_DIR / "pending"
 APPROVED_QUEUE_DIR = OUTPUT_QUEUE_DIR / "approved"
+DASHBOARD_CSV = BASE_DIR / "output" / "dashboard.csv"
 
 
 @dataclass
@@ -79,12 +81,12 @@ DEFAULT_PRICING_CONFIG = {
 }
 
 
-def setup_logger(log_path: Path) -> logging.Logger:
+def setup_logger(log_path: Path, mode: str = "w") -> logging.Logger:
     log_path.parent.mkdir(parents=True, exist_ok=True)
     logger = logging.getLogger("listing_generator")
     logger.setLevel(logging.INFO)
     logger.handlers.clear()
-    handler = logging.FileHandler(log_path, mode="w", encoding="utf-8")
+    handler = logging.FileHandler(log_path, mode=mode, encoding="utf-8")
     formatter = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
@@ -356,7 +358,8 @@ def build_follow_up_messages(
     logger: logging.Logger,
 ) -> dict:
     summary = f"Summary: {item.title_hint} ({item.condition})"
-    estimate = f"Estimate range: {build_quote_range(item, pricing_config, logger)}"
+    estimate_range = build_quote_range(item, pricing_config, logger)
+    estimate = f"Estimate range: {estimate_range}"
     windows = build_time_windows(item, logger)
     time_line = f"Time windows: {windows[0]} or {windows[1]}"
     questions = build_missing_info_questions(item)
@@ -383,7 +386,13 @@ def build_follow_up_messages(
         f"{questions_block}"
     )
     logger.info("Built follow-up messages for SKU %s.", item.sku)
-    return {"friendly": friendly, "direct": direct, "confidence_score": confidence_score}
+    return {
+        "friendly": friendly,
+        "direct": direct,
+        "confidence_score": confidence_score,
+        "estimate_range": estimate_range,
+        "job_type": item.job_type,
+    }
 
 
 def write_csv(listings: Iterable[ListingDraft], path: Path) -> None:
@@ -470,6 +479,7 @@ def write_pending_quotes(
     pending_dir.mkdir(parents=True, exist_ok=True)
     for listing in listings:
         lead_id = listing.sku
+        created_at = datetime.now(timezone.utc).isoformat()
         payload = {
             "lead_id": lead_id,
             "sku": listing.sku,
@@ -482,7 +492,9 @@ def write_pending_quotes(
             "images": listing.images,
             "confidence_score": listing.confidence_score,
             "follow_up_messages": listing.follow_up_messages,
-            "approval_timestamp": None,
+            "status": "pending",
+            "created_at_iso": created_at,
+            "approved_at_iso": None,
         }
         quote_path = pending_dir / f"{lead_id}.json"
         message_path = pending_dir / f"{lead_id}.txt"
@@ -496,6 +508,71 @@ def write_pending_quotes(
         )
         logger.info("Wrote pending quote files for lead %s", lead_id)
 
+
+def append_dashboard_rows(
+    listings: Iterable[ListingDraft],
+    dashboard_path: Path,
+    logger: logging.Logger,
+) -> None:
+    dashboard_path.parent.mkdir(parents=True, exist_ok=True)
+    listings_list = list(listings)
+    fieldnames = [
+        "lead_id",
+        "job_type",
+        "confidence",
+        "quote range",
+        "next_action",
+        "status",
+    ]
+    write_header = not dashboard_path.exists()
+    with dashboard_path.open("a", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        if write_header:
+            writer.writeheader()
+        for listing in listings_list:
+            payload = listing.follow_up_messages
+            quote_range = payload.get("estimate_range", "")
+            writer.writerow(
+                {
+                    "lead_id": listing.sku,
+                    "job_type": payload.get("job_type", "default"),
+                    "confidence": f"{listing.confidence_score:.2f}",
+                    "quote range": quote_range,
+                    "next_action": "review",
+                    "status": "pending",
+                }
+            )
+    logger.info("Appended %d dashboard rows to %s", len(listings_list), dashboard_path)
+
+
+def update_dashboard_status(
+    dashboard_path: Path,
+    lead_id: str,
+    status: str,
+    logger: logging.Logger,
+) -> None:
+    if not dashboard_path.exists():
+        logger.info("Dashboard file not found at %s; skipping status update.", dashboard_path)
+        return
+    with dashboard_path.open("r", encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle)
+        rows = list(reader)
+        fieldnames = reader.fieldnames or []
+    if "status" not in fieldnames:
+        fieldnames.append("status")
+    updated = False
+    for row in rows:
+        if row.get("lead_id") == lead_id:
+            row["status"] = status
+            updated = True
+    with dashboard_path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+    if updated:
+        logger.info("Updated dashboard status for lead %s to %s.", lead_id, status)
+    else:
+        logger.info("Lead %s not found in dashboard; status not updated.", lead_id)
 
 def run(
     input_path: Path = DEFAULT_INPUT,
@@ -524,6 +601,7 @@ def run(
     write_csv(listings, output_path)
     write_etsy_csv(listings, etsy_output_path)
     write_pending_quotes(listings, PENDING_QUEUE_DIR, logger)
+    append_dashboard_rows(listings, DASHBOARD_CSV, logger)
     logger.info("Wrote %d listings to %s", len(listings), output_path)
     logger.info("Wrote %d Etsy listings to %s", len(listings), etsy_output_path)
 

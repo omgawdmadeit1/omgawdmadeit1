@@ -1,2 +1,2 @@
 lead_id,job_type,confidence,quote range,next_action,status
-NCR-S2-PRES-001,parts_resale,1.00,$0.00-$0.00,review photos,approved
+NCR-S2-PRES-001,default,1.00,$0.00-$0.00,review,approved

@@ -1,15 +1,18 @@
-2025-12-19 13:18:05,229 INFO Loading items from /workspace/omgawdmadeit1/input/items.json
-2025-12-19 13:18:05,229 INFO Loaded job config from /workspace/omgawdmadeit1/input/job_config.json
-2025-12-19 13:18:05,229 INFO PyYAML not installed; using default pricing config.
-2025-12-19 13:18:05,229 INFO Generating listing for SKU NCR-S2-PRES-001
-2025-12-19 13:18:05,230 INFO Category matched rule 'cash presenter|cash dispenser|cash drawer' -> Business & Industrial > Retail & Services > Cash Registers & POS Equipment
-2025-12-19 13:18:05,230 INFO Keywords extracted: ncr, s2, cash, presenter
-2025-12-19 13:18:05,230 INFO Description built for SKU NCR-S2-PRES-001.
-2025-12-19 13:18:05,230 INFO Found 2 image(s) for SKU NCR-S2-PRES-001.
-2025-12-19 13:18:05,230 INFO Confidence score for SKU NCR-S2-PRES-001: 1.00
-2025-12-19 13:18:05,230 INFO Quote range for job_type 'default': rate [0.0, 0.0], hours [0.0, 0.0], parts [0.0, 0.0], trip [0.0, 0.0]
-2025-12-19 13:18:05,230 INFO Using default time windows for SKU NCR-S2-PRES-001.
-2025-12-19 13:18:05,230 INFO Built follow-up messages for SKU NCR-S2-PRES-001.
-2025-12-19 13:18:05,231 INFO Wrote pending quote files for lead NCR-S2-PRES-001
-2025-12-19 13:18:05,231 INFO Wrote 1 listings to /workspace/omgawdmadeit1/output/listings.csv
-2025-12-19 13:18:05,231 INFO Wrote 1 Etsy listings to /workspace/omgawdmadeit1/output/etsy_listings.csv
+2025-12-19 13:26:11,097 INFO Loading items from /workspace/omgawdmadeit1/input/items.json
+2025-12-19 13:26:11,098 INFO Loaded job config from /workspace/omgawdmadeit1/input/job_config.json
+2025-12-19 13:26:11,098 INFO PyYAML not installed; using default pricing config.
+2025-12-19 13:26:11,098 INFO Generating listing for SKU NCR-S2-PRES-001
+2025-12-19 13:26:11,098 INFO Category matched rule 'cash presenter|cash dispenser|cash drawer' -> Business & Industrial > Retail & Services > Cash Registers & POS Equipment
+2025-12-19 13:26:11,098 INFO Keywords extracted: ncr, s2, cash, presenter
+2025-12-19 13:26:11,098 INFO Description built for SKU NCR-S2-PRES-001.
+2025-12-19 13:26:11,098 INFO Found 2 image(s) for SKU NCR-S2-PRES-001.
+2025-12-19 13:26:11,098 INFO Confidence score for SKU NCR-S2-PRES-001: 1.00
+2025-12-19 13:26:11,098 INFO Quote range for job_type 'default': rate [0.0, 0.0], hours [0.0, 0.0], parts [0.0, 0.0], trip [0.0, 0.0]
+2025-12-19 13:26:11,099 INFO Using default time windows for SKU NCR-S2-PRES-001.
+2025-12-19 13:26:11,099 INFO Built follow-up messages for SKU NCR-S2-PRES-001.
+2025-12-19 13:26:11,100 INFO Wrote pending quote files for lead NCR-S2-PRES-001
+2025-12-19 13:26:11,100 INFO Appended 1 dashboard rows to /workspace/omgawdmadeit1/output/dashboard.csv
+2025-12-19 13:26:11,100 INFO Wrote 1 listings to /workspace/omgawdmadeit1/output/listings.csv
+2025-12-19 13:26:11,100 INFO Wrote 1 Etsy listings to /workspace/omgawdmadeit1/output/etsy_listings.csv
+2025-12-19 13:26:13,618 INFO Updated dashboard status for lead NCR-S2-PRES-001 to approved.
+2025-12-19 13:26:13,618 INFO Approved lead NCR-S2-PRES-001 and moved files to /workspace/omgawdmadeit1/output/queue/approved

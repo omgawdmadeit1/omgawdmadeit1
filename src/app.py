@@ -5,6 +5,7 @@ from typing import Dict, List, Optional
 
 from fastapi import FastAPI, HTTPException
 
+from src.cli import approve_lead
 from src.generate_listings import APPROVED_QUEUE_DIR, PENDING_QUEUE_DIR
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -96,3 +97,11 @@ def lead_detail(lead_id: str) -> str:
         f"<p>Status: {escape(data['status'])}</p>"
         f"<pre>{payload}</pre>"
     )
+
+
+@app.post("/approve/{lead_id}")
+def approve(lead_id: str) -> Dict[str, str]:
+    success, message = approve_lead(lead_id)
+    if not success:
+        raise HTTPException(status_code=404, detail=message)
+    return {"status": "approved", "message": message}
