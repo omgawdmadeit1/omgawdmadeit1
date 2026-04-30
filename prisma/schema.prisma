@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum PostStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+  FAILED
+}
+
+model User {
+  id                 String    @id @default(cuid())
+  xUserId            String?   @unique
+  handle             String?
+  accessToken        String?
+  refreshToken       String?
+  rateLimitedUntil   DateTime?
+  dailyPostLimit     Int       @default(20)
+  requireApproval    Boolean   @default(true)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  posts              Post[]
+}
+
+model Post {
+  id                 String      @id @default(cuid())
+  userId             String
+  user               User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content            String
+  threadIndex        Int         @default(0)
+  groupId            String?
+  scheduledFor       DateTime?
+  lastAttemptAt      DateTime?
+  publishedAt        DateTime?
+  status             PostStatus  @default(DRAFT)
+  retryCount         Int         @default(0)
+  approved           Boolean     @default(false)
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  logs               PublishLog[]
+
+  @@index([status, scheduledFor])
+  @@index([groupId, threadIndex])
+}
+
+model PublishLog {
+  id           String    @id @default(cuid())
+  postId        String
+  post          Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  attemptedAt   DateTime  @default(now())
+  success       Boolean
+  statusCode    Int?
+  message       String
+}
