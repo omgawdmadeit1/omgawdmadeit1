@@ -1,0 +1,258 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  SELLER
+  ADMIN
+}
+enum AgentStatus {
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+enum SkillStatus {
+  DRAFT
+  PENDING_REVIEW
+  ACTIVE
+  PAUSED
+  REJECTED
+  ARCHIVED
+}
+enum SkillType {
+  PROMPT
+  API_TOOL
+  WORKFLOW
+  SOFTWARE_MODULE
+  DATASET
+  TEMPLATE
+  AGENT_SERVICE
+  AUTOMATION
+}
+enum ExecutionMode {
+  MANUAL_DELIVERY
+  API_ENDPOINT
+  HOSTED_FUNCTION
+  DOWNLOADABLE
+  PROMPT_TEMPLATE
+  MOCK
+}
+enum PricingModel {
+  FREE
+  TRADE_ONLY
+  REQUEST_QUOTE
+  PAID_LATER
+}
+enum LicenseStatus {
+  REQUESTED
+  ACTIVE
+  REVOKED
+  EXPIRED
+}
+enum LicenseRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+enum RequestStatus {
+  OPEN
+  IN_PROGRESS
+  FULFILLED
+  CANCELED
+}
+enum OfferStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
+}
+enum TradeStatus {
+  PROPOSED
+  ACCEPTED
+  REJECTED
+  ACTIVE
+  CANCELED
+  COMPLETED
+}
+enum ExecutionStatus {
+  QUEUED
+  RUNNING
+  SUCCEEDED
+  FAILED
+}
+
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  name String
+  role UserRole @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  agents Agent[]
+  skills Skill[] @relation("SellerSkills")
+  reviews SkillReview[]
+  grantedLicenses SkillLicense[] @relation("GrantedLicenses")
+}
+
+model Agent {
+  id String @id @default(cuid())
+  ownerId String
+  owner User @relation(fields:[ownerId], references:[id])
+  name String
+  description String
+  goals Json
+  capabilities Json
+  status AgentStatus @default(ACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  licenses SkillLicense[]
+  licenseRequests SkillLicenseRequest[]
+  requests SkillRequest[]
+  offers SkillOffer[]
+  requestedTrades SkillTrade[] @relation("RequestedTrades")
+  targetTrades SkillTrade[] @relation("TargetTrades")
+  executions SkillExecution[]
+}
+
+model Skill {
+  id String @id @default(cuid())
+  sellerId String
+  seller User @relation("SellerSkills", fields:[sellerId], references:[id])
+  title String
+  description String
+  category String?
+  skillType SkillType
+  executionMode ExecutionMode
+  status SkillStatus @default(PENDING_REVIEW)
+  pricingModel PricingModel @default(FREE)
+  inputSchema Json
+  outputSchema Json
+  documentation String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  versions SkillVersion[]
+  licenses SkillLicense[]
+  licenseRequests SkillLicenseRequest[]
+  offers SkillOffer[]
+  requestedTrades SkillTrade[] @relation("TradeRequestedSkill")
+  offeredTrades SkillTrade[] @relation("TradeOfferedSkill")
+  executions SkillExecution[]
+  reviews SkillReview[]
+}
+model SkillVersion {
+  id String @id @default(cuid())
+  skillId String
+  skill Skill @relation(fields:[skillId], references:[id])
+  version String
+  changelog String
+  documentation String
+  inputSchema Json
+  outputSchema Json
+  createdAt DateTime @default(now())
+}
+model SkillLicense {
+  id String @id @default(cuid())
+  agentId String
+  skillId String
+  status LicenseStatus @default(ACTIVE)
+  grantedById String?
+  grantedBy User? @relation("GrantedLicenses", fields:[grantedById], references:[id])
+  expiresAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  agent Agent @relation(fields:[agentId], references:[id])
+  skill Skill @relation(fields:[skillId], references:[id])
+  @@unique([agentId, skillId])
+}
+model SkillLicenseRequest {
+  id String @id @default(cuid())
+  agentId String
+  skillId String
+  reason String
+  status LicenseRequestStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  reviewedAt DateTime?
+  agent Agent @relation(fields:[agentId], references:[id])
+  skill Skill @relation(fields:[skillId], references:[id])
+}
+model SkillRequest {
+  id String @id @default(cuid())
+  agentId String?
+  agent Agent? @relation(fields:[agentId], references:[id])
+  title String
+  description String
+  requiredInput Json
+  expectedOutput Json
+  category String?
+  status RequestStatus @default(OPEN)
+  createdAt DateTime @default(now())
+  offers SkillOffer[]
+}
+model SkillOffer {
+  id String @id @default(cuid())
+  requestId String
+  request SkillRequest @relation(fields:[requestId], references:[id])
+  offeringAgentId String?
+  offeringAgent Agent? @relation(fields:[offeringAgentId], references:[id])
+  skillId String?
+  skill Skill? @relation(fields:[skillId], references:[id])
+  message String
+  proposedExecutionMode ExecutionMode
+  status OfferStatus @default(PENDING)
+  createdAt DateTime @default(now())
+}
+model SkillTrade {
+  id String @id @default(cuid())
+  requestingAgentId String
+  targetAgentId String
+  offeredSkillId String
+  requestedSkillId String
+  message String
+  status TradeStatus @default(PROPOSED)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  requestingAgent Agent @relation("RequestedTrades", fields:[requestingAgentId], references:[id])
+  targetAgent Agent @relation("TargetTrades", fields:[targetAgentId], references:[id])
+  offeredSkill Skill @relation("TradeOfferedSkill", fields:[offeredSkillId], references:[id])
+  requestedSkill Skill @relation("TradeRequestedSkill", fields:[requestedSkillId], references:[id])
+}
+model SkillExecution {
+  id String @id @default(cuid())
+  agentId String
+  skillId String
+  status ExecutionStatus @default(QUEUED)
+  input Json
+  output Json?
+  error String?
+  durationMs Int?
+  isMock Boolean @default(true)
+  createdAt DateTime @default(now())
+  finishedAt DateTime?
+  agent Agent @relation(fields:[agentId], references:[id])
+  skill Skill @relation(fields:[skillId], references:[id])
+}
+model SkillReview {
+  id String @id @default(cuid())
+  skillId String
+  reviewerId String
+  rating Int
+  comment String
+  createdAt DateTime @default(now())
+  skill Skill @relation(fields:[skillId], references:[id])
+  reviewer User @relation(fields:[reviewerId], references:[id])
+}
+model AdminAuditLog {
+  id String @id @default(cuid())
+  actorUserId String?
+  action String
+  entityType String
+  entityId String
+  metadata Json?
+  createdAt DateTime @default(now())
+}
