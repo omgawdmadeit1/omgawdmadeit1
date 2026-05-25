@@ -1,90 +1,159 @@
-# SMI-65 — Beat the Expert Creative Request
+# SMI-65 — Win the 5 Bitcoin Creative Challenge
 
-## Goal
-Develop stronger App Store visuals than the provided expert-style basketball creative by improving:
-- product comprehension in first 1–2 seconds,
-- emotional hook,
-- credibility/safety signals,
-- conversion intent for broad US audiences.
+## Objective
+Create an App Store visual system that **clearly beats** the provided basketball expert creative on:
+1. first-glance product clarity,
+2. trust perception,
+3. beginner approachability,
+4. install intent.
 
-## Observed baseline (from provided screenshot)
-- Strong cinematic look: athlete centered, dramatic arena lighting, symmetrical framing.
-- Sports metaphor communicates confidence and scale.
-- Weakness: no explicit product UI, no clear benefit claim, no immediate "why Coinbase now" anchor.
+This brief is written to maximize probability of winning the challenge, not just shipping “good enough” variants.
 
-## Concept directions to test
+---
 
-### 1) "All Markets. One App."
-**Visual**
-- Split scene into 3 lanes: Crypto, Stocks, Predictions.
-- Central phone mockup with live portfolio card and simple green growth line.
-- Human subject in motion connecting all 3 lanes.
+## Why the baseline loses (despite looking premium)
+The reference creative is cinematic and confident, but likely underperforms on App Store decision mechanics:
+- It sells **vibe**, not **product utility**.
+- It communicates **athlete power**, not **user outcome**.
+- It has **no immediate UI proof** (critical for finance trust + comprehension).
+- It lacks a clear reason to download **right now**.
 
-**Headline options**
-- "Crypto, Stocks & Predictions — One App"
-- "Trade Your World in One Place"
+**Takeaway:** We should keep premium production value, but pivot hard to **proof + payoff + trust** in under 2 seconds.
 
-**Why it should beat baseline**
-- Faster product clarity than symbolic sports-only image.
-- Better alignment to current App Store messaging around multiple asset classes.
+---
 
-### 2) "From $1 to Confident"
-**Visual**
-- Beginner-friendly framing: person on subway/street checking app.
-- Prominent "$1" badge + simple portfolio starter tiles.
-- Warm daylight, less intimidating tone than dark arena.
+## Winning strategy (single sentence)
+Use premium human-led visuals, but force every frame to answer: **“What can I do in this app, why is it safe, and why should I start now?”**
 
-**Headline options**
-- "Start with as little as $1"
-- "First Trade? Start Simple"
+---
 
-**Why it should beat baseline**
-- Lowers entry anxiety and broadens audience beyond sports enthusiasts.
-- Stronger direct value proposition.
+## Hero concept to lead with (highest win probability)
 
-### 3) "Security You Can See"
-**Visual**
-- Clean blue/white visual language.
-- Shield iconography + 2FA/verification cues integrated into realistic UI.
-- Trust motifs (regulated, encryption, account protection) in concise badges.
+## Concept A — “Your Money Moves. One App.” (Primary)
+### Big idea
+Turn fragmented money behaviors (crypto, stocks, quick market takes) into one seamless in-app experience.
 
-**Headline options**
-- "Built with Security First"
-- "Trade with Confidence"
+### Frame composition
+- **Center:** phone with real UI (portfolio value, watchlist, buy flow).
+- **Left rail:** “Crypto” context card.
+- **Right rail:** “Stocks” context card.
+- **Top/overlay:** live signal chip (e.g., “Market moving now”).
+- **Human subject:** grounded, confident, everyday user (not celebrity-coded).
 
-**Why it should beat baseline**
-- Category trust is decisive in finance apps; baseline under-signals safety.
+### Headline options
+- “Crypto, Stocks, and More — In One App”
+- “One App for Every Market Moment”
+- “Your Money Moves. One App.”
 
-### 4) "Moments That Move Markets"
-**Visual**
-- Real-time event tiles (sports/politics/crypto) around device.
-- Countdown clocks + subtle motion blur to imply speed.
-- Human expression focused on anticipation.
+### Why this should win
+- Immediate category understanding.
+- Broad audience relevance.
+- Strongest blend of aspiration + clarity + utility.
 
-**Headline options**
-- "React in Real Time"
-- "Your Take, Live"
+---
 
-**Why it should beat baseline**
-- Sharp urgency + timeliness story; higher thumb-stop potential.
+## Additional concepts (for breadth + testing)
 
-## Production guardrails
-- Keep all claims verifiable and compliant (avoid performance promises).
-- Use legible text at small App Store thumbnail sizes.
-- Prioritize one core message per frame.
-- Include clear product UI in at least 70% of frames.
+## Concept B — “Start Small, Start Today” (Beginner conversion)
+### Visual
+- Bright, real-world setting (commute, coffee shop, home desk).
+- Prominent “Start with as little as $1” style badge treatment.
+- UI shows easy onboarding and first-position flow.
 
-## Test matrix (first pass)
-- 4 concepts × 2 headlines × 2 color grades = 16 variants.
-- Primary KPI: App Store Product Page CVR uplift.
-- Secondary KPIs: Tap-through rate from ad placements, D1 retention proxy.
+### Headline options
+- “Start with as little as $1”
+- “New to investing? Start simple.”
 
-## Recommended launch set
-If only 3 variants can ship first:
-1. All Markets. One App. (balanced clarity + breadth)
-2. Security You Can See (trust-led)
-3. From $1 to Confident (beginner acquisition)
+### Purpose
+Captures hesitant first-timers and reduces intimidation.
 
-## Notes
-- The existing expert visual can remain as a control in the experiment.
-- Pair each visual with matching short copy in ad placements for message consistency.
+## Concept C — “Confidence by Design” (Trust conversion)
+### Visual
+- Crisp blue palette, clean typography, minimal clutter.
+- UI includes account protection cues, verification states, and stability.
+- Security/trust badges presented as product UI support, not hype stickers.
+
+### Headline options
+- “Built for secure investing”
+- “Trade with confidence”
+
+### Purpose
+Directly addresses the biggest blocker in finance-app conversion: trust.
+
+## Concept D — “When Markets Move, Move” (Urgency conversion)
+### Visual
+- Event-driven tiles + subtle time cues.
+- Motion-oriented composition while keeping UI readable.
+- Human expression focused and alert, not anxious.
+
+### Headline options
+- “React in real time”
+- “Don’t miss market moments”
+
+### Purpose
+Creates urgency without using risky performance claims.
+
+---
+
+## Non-negotiable creative rules
+1. **UI must be visible and legible** in every key frame.
+2. **One core message per frame** (no stacked claims).
+3. **No unverifiable promises** (no earnings guarantees, no “get rich” framing).
+4. **Thumbnail-first readability:** high contrast, short copy, big type.
+5. **Human + product together** in the majority of variants.
+
+---
+
+## Copy bank (ready-to-test)
+
+### Clarity copy
+- “Crypto, Stocks, and More — One App”
+- “One place to track and trade”
+
+### Beginner copy
+- “Start with as little as $1”
+- “First move? Make it simple.”
+
+### Trust copy
+- “Built with security in mind”
+- “Confidence for every trade”
+
+### Urgency copy
+- “Stay ready for market moves”
+- “Your take, in real time”
+
+---
+
+## Experiment plan (optimized for speed + signal)
+
+## Phase 1: Fast elimination (7 days)
+- 4 concepts × 2 headlines = 8 variants.
+- Keep color grade fixed to isolate message effect.
+- Success metric: Product Page CVR uplift vs control.
+
+## Phase 2: Scale winner (7–10 days)
+- Top 2 variants from Phase 1.
+- Add 2 visual treatments each (human-forward vs UI-forward).
+- Add 2 CTA copy options each.
+
+## Metrics
+- **Primary:** App Store Product Page CVR.
+- **Secondary:** Tap-through rate from paid placements.
+- **Quality check:** D1 retention / first key in-app action proxy.
+
+---
+
+## What to ship first (if only 3 shots allowed)
+1. **Concept A / “Your Money Moves. One App.”**
+2. **Concept C / “Confidence by Design.”**
+3. **Concept B / “Start Small, Start Today.”**
+
+Keep the current expert basketball creative as **control** to prove incremental lift.
+
+---
+
+## Final note for the 5 Bitcoin goal
+To win, do not optimize for “best-looking ad.” Optimize for the App Store question users ask in 2 seconds:
+**“Is this useful for me, can I trust it, and can I start easily?”**
+
+This brief is designed to win on that exact decision path.
