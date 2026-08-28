@@ -9,8 +9,12 @@ export default {
         surface: "#0E1424",
         primary: "#58A6FF",
         accent: "#22D3EE",
+        card: "rgba(15, 23, 42, 0.74)",
       },
-      boxShadow: { card: "0 10px 30px rgba(4, 8, 22, 0.45)" },
+      boxShadow: {
+        card: "0 10px 30px rgba(4, 8, 22, 0.45)",
+        glow: "0 0 60px rgba(14, 165, 233, 0.22)",
+      },
     },
   },
   plugins: [],

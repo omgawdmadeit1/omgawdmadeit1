@@ -6,6 +6,8 @@ const links = [
   ["AI CFO Chat", "/chat"],
   ["Reports", "/reports"],
   ["Budgets", "/budgets"],
+  ["Grok Playground", "/grok"],
+  ["Pricing", "/pricing"],
 ];
 
 export function Sidebar() {
