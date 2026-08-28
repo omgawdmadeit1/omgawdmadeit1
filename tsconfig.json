@@ -1,14 +1,21 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "strict": true,
-    "esModuleInterop": true,
+    "lib": ["dom", "dom.iterable", "ES2022"],
+    "allowJs": false,
     "skipLibCheck": true,
-    "outDir": "dist",
-    "rootDir": ".",
-    "jsx": "react-jsx"
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
+    "paths": { "@/*": ["./*"] }
   },
-  "include": ["src", "prisma/seed.ts", "widgets"]
+  "include": ["next-env.d.ts", "app", "components", "data", "lib", "middleware.ts", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "src", "dist", "test"]
 }

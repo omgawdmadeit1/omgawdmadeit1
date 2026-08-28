@@ -26,6 +26,16 @@ const products = [
     description: "Ask strategic questions and get proactive recommendations.",
     href: "/chat",
   },
+  {
+    name: "Grok Playground",
+    description: "Supabase auth, Stripe-metered Grok chat, and usage charts.",
+    href: "/grok",
+  },
+  {
+    name: "Usage Pricing",
+    description: "Free trials plus metered Pro checkout through Stripe.",
+    href: "/pricing",
+  },
 ];
 
 export default function HomePage() {
@@ -38,8 +48,9 @@ export default function HomePage() {
         <h1 className="text-4xl font-bold md:text-5xl">Prosperity CFO Suite</h1>
         <p className="mx-auto mt-4 max-w-3xl text-slate-300">
           All core products are now combined into one functional app experience: onboarding,
-          live financial monitoring, transaction workflows, budget controls, reporting, and
-          embedded AI strategy support.
+          live financial monitoring, transaction workflows, budget controls, reporting,
+          embedded AI strategy support, plus the Grok/Stripe billing starter and Agent Skill
+          Exchange MCP backend.
         </p>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
           <Link href="/auth" className="rounded-xl bg-primary px-5 py-3 font-medium text-slate-950">

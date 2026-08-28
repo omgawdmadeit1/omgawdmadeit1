@@ -1,55 +1,62 @@
-# Agent Skill Exchange
+# omgawdmadeit1 Suite
 
-## Project overview
-Agent Skill Exchange is a ChatGPT-native agent-to-agent marketplace built with TypeScript, Node.js, Prisma, PostgreSQL, Zod, and MCP-style tools. It supports agent profiles, skill listings, license requests, trade proposals, and mock skill execution.
+This profile repo now combines three distinct surfaces that previously lived on conflicting pull requests:
 
-## Local setup
-1. `npm install`
-2. Copy `.env.example` to `.env`
-3. Fill environment variables.
+1. **Prosperity CFO** — Next.js finance OS (dashboard, transactions, budgets, reports, AI CFO chat).
+2. **Grok SaaS starter** (from #9) — Supabase magic-link auth, Stripe metered billing, and Grok chat.
+3. **Agent Skill Exchange** (from #11/#12) — Prisma marketplace backend with MCP HTTP routes, authz, moderation, and a queued execution path.
 
-## Env vars
-- `DATABASE_URL`
-- `APP_BASE_URL`
-- `NODE_ENV`
-- `AUTH_SECRET` (optional)
-- `DEFAULT_USER_ID` (for local authenticated user simulation)
-- `AUTO_APPROVE_SKILLS` (`true`/`false`)
+Duplicate SMI-65 creative-brief PRs were left untouched; `SMI-65-creative-concepts.md` is already on `main`.
 
-## Database migration
-- `npm run prisma:generate`
-- `npm run prisma:migrate`
+## Web app (Next.js)
 
-## Seed command
-- `npm run prisma:seed`
+```bash
+npm install
+cp .env.example .env.local
+npm run dev
+```
 
-## Run MCP server
-- Dev: `npm run dev`
-- Build: `npm run build`
-- Prod: `npm run start`
+- Finance demo: `/`, `/dashboard`, `/transactions`, `/budgets`, `/reports`, `/chat`
+- Grok + billing: `/login`, `/pricing`, `/grok`
+- Auth callback: `/auth/callback`
 
-## Connect app to ChatGPT developer mode
-1. Start the server locally.
-2. Expose your local server with your preferred tunnel.
-3. Register the app manifest/tool endpoints in ChatGPT developer mode using the hosted URL.
-4. Map widget names to iframe routes/components.
+### Supabase + Stripe + Grok
 
-## Implemented
-- Prisma schema with required models/enums.
-- Zod validation for all 13 tools.
-- Tool handlers for search/get/create/license/trade/run/history flows.
-- Mock execution path with explicit mock response.
-- Seed dataset matching requested counts.
-- Reusable widget scaffolds for ChatGPT iframe rendering.
+1. Create a Supabase project and run `supabase/schema.sql`.
+2. Fill `NEXT_PUBLIC_SUPABASE_*`, `SUPABASE_SERVICE_ROLE_KEY`, Stripe keys, and `GROK_API_KEY`.
+3. Forward webhooks: `stripe listen --forward-to localhost:3000/api/stripe/webhook`.
 
-## Mocked
-- Skill execution external integrations.
-- Auth/session identity (via `DEFAULT_USER_ID`).
-- Apps SDK transport layer wiring (tool logic is production-shaped and ready to wire).
+The Grok playground stays on `/grok` so it does not replace the Prosperity CFO dashboard.
 
-## Remaining before production
-- Real authN/authZ and tenant isolation.
-- Seller/admin moderation workflows and policy enforcement.
-- Rate limits, observability, retries, and queue-backed executions.
-- End-to-end Apps SDK MCP transport registration and hosted widget routes.
-- Comprehensive tests and CI pipeline.
+## Agent Skill Exchange backend
+
+```bash
+npm install
+cp .env.example .env
+npm run prisma:generate
+npm run prisma:migrate
+npm run prisma:seed
+npm run dev:server
+```
+
+- Health: `GET /health`
+- List tools: `GET /mcp/tools`
+- Invoke tool: `POST /mcp/invoke/:toolName`
+- Metrics: `GET /metrics`
+
+Env vars used by the backend: `DATABASE_URL`, `APP_BASE_URL`, `DEFAULT_USER_ID`, `DEFAULT_TENANT_ID`, `DEFAULT_USER_ROLE`, `AUTO_APPROVE_SKILLS`, `PORT`.
+
+## Scripts
+
+| Script | Purpose |
+| --- | --- |
+| `npm run dev` | Next.js web app |
+| `npm run dev:server` | Agent Skill Exchange HTTP/MCP server |
+| `npm run build` | Next.js production build |
+| `npm run build:server` | TypeScript compile of `src/` |
+| `npm test` | Vitest (Zod validation) |
+| `npm run prisma:generate` | Generate Prisma client |
+
+## CI
+
+`.github/workflows/ci.yml` runs `npm ci`, Prisma generate, `build:server`, and `npm test`.

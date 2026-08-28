@@ -1,4 +1,9 @@
 node_modules
 dist
 .env
+.env*.local
 .prisma
+.next
+.vercel
+npm-debug.log*
+.DS_Store
