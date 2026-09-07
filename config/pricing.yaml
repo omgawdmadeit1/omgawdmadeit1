@@ -1,0 +1,12 @@
+labor_rate_range:
+  default: [0.0, 0.0]
+  parts_resale: [0.0, 0.0]
+labor_hours_range:
+  default: [0.0, 0.0]
+  parts_resale: [0.0, 0.0]
+parts_range:
+  default: [0.0, 0.0]
+  parts_resale: [0.0, 0.0]
+trip_fee_range:
+  with_zip: [0.0, 0.0]
+  without_zip: [0.0, 0.0]
